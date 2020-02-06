@@ -1,0 +1,362 @@
+---
+interact_link: content/charts.ipynb
+kernel_name: ir
+kernel_path: content
+has_widgets: false
+title: |-
+  Diagram
+pagenum: 3
+prev_page:
+  url: /preparation.html
+next_page:
+  url: /modification.html
+suffix: .ipynb
+search: images png staplar stapeldiagram skiktade hr av blekinge liggande man till kuggade flera aklagare halmstad linje fleralinjer diagram r ngra de vanligaste diagrammen som vi anvnder oss fr att gra behver bara lgga coordflip koden grupperade med ett grupperat kan visa vrden exempel per klagarkammare excelfilen ser ut s linjediagram linjer
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Diagram</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Här är några av de vanligaste diagrammen som vi använder oss av.</p>
+<h2 id="Stapeldiagram">Stapeldiagram<a class="anchor-link" href="#Stapeldiagram"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Läs in data</span>
+<span class="n">df1</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;lankommun.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;elevhalsa.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">4</span><span class="p">)</span>
+<span class="n">df3</span> <span class="o">&lt;-</span> <span class="nf">left_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&quot;Kommun&quot;</span><span class="p">)</span>
+
+<span class="c1">#Lista med länsnamnen</span>
+<span class="n">lista_lan</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Blekinge län&quot;</span><span class="p">,</span> <span class="s">&quot;Dalarnas län&quot;</span><span class="p">,</span> <span class="s">&quot;Gotlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Gävleborgs län&quot;</span><span class="p">,</span> <span class="s">&quot;Hallands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jämtlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jönköpings län&quot;</span><span class="p">,</span> <span class="s">&quot;Kalmar län&quot;</span><span class="p">,</span> <span class="s">&quot;Kronobergs län&quot;</span><span class="p">,</span> <span class="s">&quot;Norrbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Skåne län&quot;</span><span class="p">,</span> <span class="s">&quot;Stockholms län&quot;</span><span class="p">,</span> <span class="s">&quot;Södermanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Uppsala län&quot;</span><span class="p">,</span> <span class="s">&quot;Värmlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västerbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Västernorrlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västmanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västra Götalands län&quot;</span><span class="p">,</span> <span class="s">&quot;Örebro län&quot;</span><span class="p">,</span> <span class="s">&quot;Östergötlands län&quot;</span><span class="p">)</span>
+
+<span class="c1">#Plotta länsdiagram</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">lista_lan</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">df3</span> <span class="o">%&gt;%</span> 
+    <span class="nf">drop_na</span><span class="p">()</span> <span class="o">%&gt;%</span>
+    <span class="nf">filter</span><span class="p">(</span><span class="n">Län</span> <span class="o">==</span> <span class="n">i</span> <span class="o">|</span> <span class="n">Län</span> <span class="o">==</span> <span class="s">&quot;Riket&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">highlight_flag</span> <span class="o">=</span> <span class="nf">ifelse</span><span class="p">(</span><span class="n">Län</span><span class="o">==</span><span class="s">&quot;Riket&quot;</span><span class="p">,</span> <span class="bp">T</span><span class="p">,</span> <span class="bp">F</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+    <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Kommun</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Kostnad</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">highlight_flag</span><span class="p">),</span> <span class="n">show.legend</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> 
+         <span class="n">y</span><span class="o">=</span><span class="s">&quot;Kronor per elev&quot;</span><span class="p">,</span> 
+         <span class="n">title</span><span class="o">=</span><span class="s">&quot;Så mycket kostar elevhälsan i kommunala grundskolan&quot;</span><span class="p">,</span> 
+         <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Siffrorna gäller 2018&quot;</span><span class="p">,</span> 
+         <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: Skolverket. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">palett1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">theme_siren</span><span class="p">()</span>
+    <span class="nf">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;.png&quot;</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/Blekinge.png" alt="Blekinge"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Liggande-staplar">Liggande staplar<a class="anchor-link" href="#Liggande-staplar"> </a></h2><p>För att göra liggande staplar behöver man bara lägga till <code>coord_flip()</code> i stapeldiagram-koden.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Läs in och förbered data</span>
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;uppkorning.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+<span class="n">riks</span> <span class="o">&lt;-</span> <span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">`Antal försök`</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">Län</span><span class="p">)</span>
+
+<span class="c1">#Plotta riksdiagram</span>
+<span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">riks</span> <span class="o">%&gt;%</span>
+    <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">reorder</span><span class="p">(</span><span class="n">Kommun</span><span class="p">,</span> <span class="n">`Antal försök`</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">`Antal försök`</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s">&quot;#dc282c&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">&quot;Antal uppkörningar&quot;</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s">&quot;Personerna som har kört upp flest gånger i Sverige&quot;</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Gäller förarprov för B-körkort genomförda på Trafikverket\nunder perioden 1 januari 2013 till 11 oktober 2019&quot;</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: Trafikverket. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">coord_flip</span><span class="p">()</span> <span class="o">+</span>
+    <span class="nf">theme_siren</span><span class="p">()</span>
+    <span class="nf">ggsave</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">,</span> <span class="s">&quot;Riket.png&quot;</span><span class="p">),</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/kuggade.png" alt="kuggade"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Grupperade-staplar">Grupperade staplar<a class="anchor-link" href="#Grupperade-staplar"> </a></h2><p>Med ett grupperat stapeldiagram kan man visa flera värden, till exempel per åklagarkammare. Excelfilen ser ut så här:
+<img src="images/aklagare.png" alt="aklagare"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Förbered data</span>
+<span class="n">df1</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;kontakt.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">4</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">&lt;-</span> <span class="n">df1</span> <span class="o">%&gt;%</span> <span class="nf">melt</span><span class="p">(</span><span class="s">&quot;Åklagarkammare&quot;</span><span class="p">)</span>
+<span class="n">lista_kammare</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Borås&quot;</span><span class="p">,</span> <span class="s">&quot;City&quot;</span><span class="p">,</span> <span class="s">&quot;Eskilstuna&quot;</span><span class="p">,</span> <span class="s">&quot;Falun&quot;</span><span class="p">,</span> <span class="s">&quot;Gävle&quot;</span><span class="p">,</span> <span class="s">&quot;Göteborg&quot;</span><span class="p">,</span> <span class="s">&quot;Halmstad&quot;</span><span class="p">,</span> <span class="s">&quot;Helsingborg&quot;</span><span class="p">,</span> <span class="s">&quot;Jönköping&quot;</span><span class="p">,</span> <span class="s">&quot;Kalmar&quot;</span><span class="p">,</span> <span class="s">&quot;Karlskrona&quot;</span><span class="p">,</span> <span class="s">&quot;Karlstad&quot;</span><span class="p">,</span> <span class="s">&quot;Kristianstad&quot;</span><span class="p">,</span> <span class="s">&quot;Linköping&quot;</span><span class="p">,</span> <span class="s">&quot;Luleå&quot;</span><span class="p">,</span> <span class="s">&quot;Malmö&quot;</span><span class="p">,</span> <span class="s">&quot;Norrköping&quot;</span><span class="p">,</span> <span class="s">&quot;Norrort&quot;</span><span class="p">,</span> <span class="s">&quot;Nyköping&quot;</span><span class="p">,</span> <span class="s">&quot;Skövde&quot;</span><span class="p">,</span> <span class="s">&quot;Sundsvall&quot;</span><span class="p">,</span> <span class="s">&quot;Söderort&quot;</span><span class="p">,</span> <span class="s">&quot;Södertörn&quot;</span><span class="p">,</span> <span class="s">&quot;Södra Skåne&quot;</span><span class="p">,</span> <span class="s">&quot;Uddevalla&quot;</span><span class="p">,</span> <span class="s">&quot;Umeå&quot;</span><span class="p">,</span> <span class="s">&quot;Uppsala&quot;</span><span class="p">,</span> <span class="s">&quot;Västerort&quot;</span><span class="p">,</span> <span class="s">&quot;Västerås&quot;</span><span class="p">,</span> <span class="s">&quot;Växjö&quot;</span><span class="p">,</span> <span class="s">&quot;Örebro&quot;</span><span class="p">,</span> <span class="s">&quot;Östersund&quot;</span><span class="p">)</span>
+
+<span class="c1">#Plotta diagram per åklagarkammare</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">lista_kammare</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">df2</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span>Å<span class="n">klagarkammare</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span>Å<span class="n">klagarkammare</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">variable</span><span class="p">)))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s">&quot;identity&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="s">&quot;dodge&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">&quot;Antal ärenden&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Beslut om kontaktförbud 2018 i &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Antal beslut om kontaktförbud som har beviljats, fått avslag \neller har avskrivits i åklagarkammaren under 2018.&quot;</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: Åklagarmyndigheten. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;.png&quot;</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">),</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/Halmstad.png" alt="Halmstad"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Skiktade-staplar">Skiktade staplar<a class="anchor-link" href="#Skiktade-staplar"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Läs in och förbered data</span>
+<span class="n">df1</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;lankommun.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+<span class="n">df2</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;chef.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">4</span><span class="p">)</span>
+<span class="n">df3</span> <span class="o">&lt;-</span> <span class="nf">left_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&quot;Kommun&quot;</span><span class="p">)</span>
+<span class="n">df4</span> <span class="o">&lt;-</span> <span class="nf">gather</span><span class="p">(</span><span class="n">df3</span><span class="p">,</span> <span class="s">&quot;Kön&quot;</span><span class="p">,</span> <span class="s">&quot;Procent&quot;</span><span class="p">,</span> <span class="m">3</span><span class="o">:</span><span class="m">4</span><span class="p">)</span>
+
+<span class="c1">#Lista med länsnamn</span>
+<span class="n">lista_lan</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Blekinge län&quot;</span><span class="p">,</span> <span class="s">&quot;Dalarnas län&quot;</span><span class="p">,</span> <span class="s">&quot;Gotlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Gävleborgs län&quot;</span><span class="p">,</span> <span class="s">&quot;Hallands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jämtlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jönköpings län&quot;</span><span class="p">,</span> <span class="s">&quot;Kalmar län&quot;</span><span class="p">,</span> <span class="s">&quot;Kronobergs län&quot;</span><span class="p">,</span> <span class="s">&quot;Norrbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Skåne län&quot;</span><span class="p">,</span> <span class="s">&quot;Stockholms län&quot;</span><span class="p">,</span> <span class="s">&quot;Södermanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Uppsala län&quot;</span><span class="p">,</span> <span class="s">&quot;Värmlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västerbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Västernorrlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västmanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västra Götalands län&quot;</span><span class="p">,</span> <span class="s">&quot;Örebro län&quot;</span><span class="p">,</span> <span class="s">&quot;Östergötlands län&quot;</span><span class="p">)</span>
+
+<span class="c1">#Plotta länsdiagram</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">lista_lan</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">df4</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span><span class="n">Län</span> <span class="o">==</span> <span class="n">i</span> <span class="o">|</span> <span class="n">Län</span> <span class="o">==</span> <span class="s">&quot;Riket&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Kommun</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">Kön</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Procent</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s">&quot;fill&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">&quot;Andel (%)&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Andel kvinnor och män i chefsposition 2017&quot;</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Statistiken gäller förvärvsarbetande anställda 16-64 år, dagbefattning. \nExklusive politiker, högre ämbetsmän och VD:ar.&quot;</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: SCB. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">palett1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span> <span class="o">=</span> <span class="n">scales</span><span class="o">::</span><span class="nf">percent_format</span><span class="p">(</span><span class="n">accuracy</span> <span class="o">=</span> <span class="m">1</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">theme_siren</span><span class="p">()</span> <span class="o">+</span>
+  <span class="nf">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;.png&quot;</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">),</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/skiktade.png" alt="skiktade"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Linjediagram">Linjediagram<a class="anchor-link" href="#Linjediagram"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Förbered data</span>
+<span class="n">df1</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;varsel.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+<span class="n">lansdata</span> <span class="o">&lt;-</span> <span class="nf">gather</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="s">&quot;År&quot;</span><span class="p">,</span> <span class="s">&quot;Antal personer&quot;</span><span class="p">,</span> <span class="m">2</span><span class="o">:</span><span class="m">13</span><span class="p">)</span>
+<span class="n">lista_lan</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Blekinge län&quot;</span><span class="p">,</span> <span class="s">&quot;Dalarnas län&quot;</span><span class="p">,</span> <span class="s">&quot;Gotlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Gävleborgs län&quot;</span><span class="p">,</span> <span class="s">&quot;Hallands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jämtlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jönköpings län&quot;</span><span class="p">,</span> <span class="s">&quot;Kalmar län&quot;</span><span class="p">,</span> <span class="s">&quot;Kronobergs län&quot;</span><span class="p">,</span> <span class="s">&quot;Norrbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Skåne län&quot;</span><span class="p">,</span> <span class="s">&quot;Stockholms län&quot;</span><span class="p">,</span> <span class="s">&quot;Södermanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Uppsala län&quot;</span><span class="p">,</span> <span class="s">&quot;Värmlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västerbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Västernorrlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västmanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västra Götalands län&quot;</span><span class="p">,</span> <span class="s">&quot;Örebro län&quot;</span><span class="p">,</span> <span class="s">&quot;Östergötlands län&quot;</span><span class="p">)</span>
+
+<span class="c1">#Plotta diagram</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">lista_lan</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">lansdata</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span><span class="n">Län</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span>Å<span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">`Antal personer`</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">Län</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">Län</span><span class="p">))</span> <span class="o">+</span>
+  <span class="nf">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">show.legend</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">&quot;Antal personer&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Varsel om uppsägning i &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Antal personer berörda av varsel om uppsägning per år.&quot;</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: Arbetsförmedlingen. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">palett1</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">theme_siren</span><span class="p">()</span>
+<span class="nf">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;.png&quot;</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">),</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/linje.png" alt="linje"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Flera-linjer">Flera linjer<a class="anchor-link" href="#Flera-linjer"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#Förbered data</span>
+<span class="n">df1</span> <span class="o">&lt;-</span> <span class="nf">read_excel</span><span class="p">(</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;raw_data&quot;</span><span class="p">,</span> <span class="s">&quot;triptan.xlsx&quot;</span><span class="p">),</span> <span class="n">sheet</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="m">1</span><span class="p">)</span>
+<span class="n">lista_lan</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Blekinge län&quot;</span><span class="p">,</span> <span class="s">&quot;Dalarnas län&quot;</span><span class="p">,</span> <span class="s">&quot;Gotlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Gävleborgs län&quot;</span><span class="p">,</span> <span class="s">&quot;Hallands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jämtlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Jönköpings län&quot;</span><span class="p">,</span> <span class="s">&quot;Kalmar län&quot;</span><span class="p">,</span> <span class="s">&quot;Kronobergs län&quot;</span><span class="p">,</span> <span class="s">&quot;Norrbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Skåne län&quot;</span><span class="p">,</span> <span class="s">&quot;Stockholms län&quot;</span><span class="p">,</span> <span class="s">&quot;Södermanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Uppsala län&quot;</span><span class="p">,</span> <span class="s">&quot;Värmlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västerbottens län&quot;</span><span class="p">,</span> <span class="s">&quot;Västernorrlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västmanlands län&quot;</span><span class="p">,</span> <span class="s">&quot;Västra Götalands län&quot;</span><span class="p">,</span> <span class="s">&quot;Örebro län&quot;</span><span class="p">,</span> <span class="s">&quot;Östergötlands län&quot;</span><span class="p">)</span>
+
+<span class="c1">#Plotta diagram</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">lista_lan</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">chart</span> <span class="o">&lt;-</span> <span class="n">df1</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span><span class="n">Region</span> <span class="o">==</span> <span class="n">i</span> <span class="o">|</span> <span class="n">Region</span> <span class="o">==</span> <span class="s">&quot;Riket&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+    <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span>Å<span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">`Patienter/1000 invånare`</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">Region</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">Region</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">&quot;Patienter/1000 invånare&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Patienter som har fått triptaner mot migrän i &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;Läkemedel som har hämtats ut mot recept på apotek.&quot;</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&quot;Källa: Socialstyrelsen. Grafik: Nyhetsbyrån Siren.&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">palett5</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">theme_siren</span><span class="p">()</span>
+  <span class="nf">ggsave</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;.png&quot;</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="nf">here</span><span class="p">(</span><span class="s">&quot;output_data&quot;</span><span class="p">),</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="m">400</span><span class="o">/</span><span class="m">72</span><span class="p">),</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="m">600</span><span class="o">/</span><span class="m">72</span><span class="p">))</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/fleralinjer.png" alt="fleralinjer"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

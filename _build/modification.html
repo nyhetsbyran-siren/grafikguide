@@ -1,0 +1,50 @@
+---
+interact_link: content/modification.ipynb
+kernel_name: ir
+kernel_path: content
+has_widgets: false
+title: |-
+  Ändra i diagrammen
+pagenum: 4
+prev_page:
+  url: /charts.html
+next_page:
+  url: 
+suffix: .ipynb
+search: att det till gr scaleycontinuous kommun vrde ndra diagrammen som fr p radbrytning skalstrecken limits c x reorder en texten genom exempel y lgg vrden breaks staplar desc hgsta lgsta finns hel del ndringar kan gras bde diagramskripten och theme man anvnder frndra utseendet hr listas ngra av dem har ingen automatisk men gra manuell lgga n axelrubriker under rubriken labs text diagrammet skriva kolumnrubriker axelrubrik enhet skalstreck stlla fre raden themesiren begrnsa axeln eller ge exakta ocks bra ange bara hur stora avstnden mellan ska vara seq ordning kolumner f bokstavsordning efter frn ta bort saknade dropna ett extra
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Ändra i diagrammen</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Det finns en hel del ändringar som kan göras både i diagramskripten och i det theme() som man använder för att förändra utseendet på diagrammen. Här listas några av dem.</p>
+<h2 id="Radbrytning">Radbrytning<a class="anchor-link" href="#Radbrytning"> </a></h2><p>Texten i diagrammen har ingen automatisk radbrytning, men det går att göra en manuell radbrytning genom att lägga in  <code>\n</code> i texten.</p>
+<h2 id="Axelrubriker">Axelrubriker<a class="anchor-link" href="#Axelrubriker"> </a></h2><p>Under rubriken <code>labs</code> går det att ändra på text i diagrammet, till exempel skriva in kolumnrubriker: <code>y="Axelrubrik (enhet)"</code>.</p>
+<h2 id="Skalstreck">Skalstreck<a class="anchor-link" href="#Skalstreck"> </a></h2><p>Skalstrecken går att ställa in. Lägg till <code>scale_y_continuous()</code> före raden <code>theme_siren()</code>
+I scale_y_continuous går det att till exempel begränsa y-axeln genom limits eller ge skalstrecken exakta värden:</p>
+<p><code>scale_y_continuous(limits=c(0,100), breaks=c(0,20,40,60,80,100)) +</code></p>
+<p>Det går också bra att ange bara hur stora avstånden mellan skalstrecken ska vara:</p>
+<p><code>scale_y_continuous(limits=c(0,100), breaks=seq(0,100, by=20)) +</code></p>
+<h2 id="&#196;ndra-ordning-p&#229;-kolumner">&#196;ndra ordning p&#229; kolumner<a class="anchor-link" href="#&#196;ndra-ordning-p&#229;-kolumner"> </a></h2><ul>
+<li>För att få staplar i bokstavsordning: <code>x=reorder(Kommun, desc(Kommun))</code></li>
+<li>Staplar efter högsta till lägsta värde: <code>x=reorder(Kommun, desc(Värde))</code></li>
+<li>Från lägsta till högsta värde: <code>x=reorder(Kommun, Värde)</code></li>
+</ul>
+<h2 id="Ta-bort-saknade-v&#228;rden">Ta bort saknade v&#228;rden<a class="anchor-link" href="#Ta-bort-saknade-v&#228;rden"> </a></h2><p>Lägg till <code>%&gt;% drop_na() %&gt;%</code> som ett extra filter för datan.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

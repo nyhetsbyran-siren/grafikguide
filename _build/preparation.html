@@ -1,0 +1,70 @@
+---
+interact_link: content/preparation.ipynb
+kernel_name: ir
+kernel_path: content
+has_widgets: false
+title: |-
+  Förberedelser
+pagenum: 2
+prev_page:
+  url: /overview.html
+next_page:
+  url: /charts.html
+suffix: .ipynb
+search: det att fr install packages library r hr vi som finns med alla och theme ggplot p gr diagramskripten har ett paket frger gra de gng installera en lggs frberedelseskript hmtas themesiren typsnitt marginaler anvnder flera man kan anvnda vill diagram s varje tidyr dplyr openxlsx readxl here reshape frgpaletter frberedelser cran project org datorn organisera filer enkel mappstruktur enkelt hlla ordning rawdata excelfilen data outputdata hamnar nedladdade diagrambilder scripts skript inte ska bli stora kr fre prep skriptet behver definierat instllningar stt styra ver utseendet diagrammen vissa saker skrivs sjlva koden diagrammet men ocks frdiga till exempel themebw thememinimal
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Förberedelser</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installera-R">Installera R<a class="anchor-link" href="#Installera-R"> </a></h2><p>Installera <a href="https://cran.r-project.org/">R</a> på datorn.</p>
+<h2 id="Organisera-filer">Organisera filer<a class="anchor-link" href="#Organisera-filer"> </a></h2><p>En enkel mappstruktur gör det enkelt att hålla ordning:</p>
+<ul>
+<li><strong>R</strong><ul>
+<li><strong>raw_data</strong> (här läggs Excelfilen med data in)</li>
+<li><strong>output_data</strong> (här hamnar nedladdade diagrambilder)</li>
+<li><strong>scripts</strong> (här läggs alla skript)</li>
+</ul>
+</li>
+</ul>
+<h2 id="F&#246;rberedelseskript">F&#246;rberedelseskript<a class="anchor-link" href="#F&#246;rberedelseskript"> </a></h2><p>För att diagramskripten inte ska bli för stora, har vi ett förberedelseskript som vi kör före diagramskripten. I det här "prep-skriptet" finns alla paket som behöver hämtas och theme_siren() finns definierat med alla typsnitt, marginaler, inställningar och färger som vi använder.</p>
+<h3 id="Theme">Theme<a class="anchor-link" href="#Theme"> </a></h3><p>Det finns flera sätt att styra över utseendet på diagrammen i ggplot2. Vissa saker skrivs in i själva koden för diagrammet, men man kan också använda ett <strong>theme</strong>. Det finns flera färdiga theme i ggplot2, till exempel:</p>
+<p><code>theme_bw()</code> <code>theme_minimal()</code> <code>theme_dark()</code> <code>theme_classic()</code></p>
+<p>Ytterligare themes finns i paketet <code>ggtheme</code>, för den som kanske vill göra diagram i Economist- eller Tuftestil:</p>
+<p><code>theme_economist()</code> <code>theme_tufte()</code></p>
+<p>Vill man detaljstyra diagrammets utseende går det att göra ett helt eget theme. För Siren har jag gjort <code>theme_siren()</code> med de typsnitt, marginaler och färger som vi brukar använda.</p>
+<h3 id="Paket">Paket<a class="anchor-link" href="#Paket"> </a></h3><p>Det här är de så kallade "paket" som vi använder för att göra diagram. De måste installeras en gång och sedan hämtas på nytt varje gång R startas.</p>
+
+<pre><code>install.packages("tidyr")
+install.packages("dplyr")
+install.packages("openxlsx")
+install.packages("readxl")
+install.packages("ggplot2", dependencies=TRUE)
+install.packages("here")
+install.packages("reshape2")
+
+library(reshape2)
+library(here)
+library(tidyr)
+library(dplyr)
+library(openxlsx)
+library(readxl)
+library(ggplot2)</code></pre>
+<h3 id="F&#228;rgpaletter">F&#228;rgpaletter<a class="anchor-link" href="#F&#228;rgpaletter"> </a></h3><p>I diagramskripten går det att anropa "paletter" med fördefinierade färger, istället för att varje gång skriva in exakt färgkod. Vi har lagt alla färgpaletter i förberedelseskriptet, vilket kan se ut så här: <code>palett1 &lt;- c("#dc282c", "#f9b92b")</code></p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
