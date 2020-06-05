@@ -11,7 +11,7 @@ prev_page:
 next_page:
   url: 
 suffix: .ipynb
-search: att det till gr scaleycontinuous kommun vrde ndra diagrammen som fr p radbrytning skalstrecken limits c x reorder en texten genom exempel y lgg vrden breaks staplar desc hgsta lgsta finns hel del ndringar kan gras bde diagramskripten och theme man anvnder frndra utseendet hr listas ngra av dem har ingen automatisk men gra manuell lgga n axelrubriker under rubriken labs text diagrammet skriva kolumnrubriker axelrubrik enhet skalstreck stlla fre raden themesiren begrnsa axeln eller ge exakta ocks bra ange bara hur stora avstnden mellan ska vara seq ordning kolumner f bokstavsordning efter frn ta bort saknade dropna ett extra
+search: till att det fr gr ndra p lgg som x scaleycontinuous vrden c staplar kommun vrde diagrammen en radbrytning genom skalstrecken limits eller reorder filter och texten lgga axelrubriker under text diagrammet exempel y breaks desc hgsta lgsta ta riket ln fljande size vertikala linjer z finns hel del ndringar kan gras bde diagramskripten theme anvnder frndra utseendet hr listas ngra av dem har ingen automatisk men gra manuell n rubriken labs skriva kolumnrubriker axelrubrik enhet rotera axis prep stta angle istllet skalstreck stlla fre raden themesiren begrnsa axeln ge exakta ocks bra ange bara hur stora avstnden mellan ska
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -23,9 +23,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Det finns en hel del ändringar som kan göras både i diagramskripten och i det theme() som man använder för att förändra utseendet på diagrammen. Här listas några av dem.</p>
+<p>Det finns en hel del ändringar som kan göras både i diagramskripten och i det theme() som en använder för att förändra utseendet på diagrammen. Här listas några av dem.</p>
 <h2 id="Radbrytning">Radbrytning<a class="anchor-link" href="#Radbrytning"> </a></h2><p>Texten i diagrammen har ingen automatisk radbrytning, men det går att göra en manuell radbrytning genom att lägga in  <code>\n</code> i texten.</p>
-<h2 id="Axelrubriker">Axelrubriker<a class="anchor-link" href="#Axelrubriker"> </a></h2><p>Under rubriken <code>labs</code> går det att ändra på text i diagrammet, till exempel skriva in kolumnrubriker: <code>y="Axelrubrik (enhet)"</code>.</p>
+<h2 id="Axelrubriker">Axelrubriker<a class="anchor-link" href="#Axelrubriker"> </a></h2><p>Under rubriken <code>labs</code> går det att ändra på text i diagrammet, till exempel skriva in kolumnrubriker: <code>y="Axelrubrik (enhet)"</code>.
+Rotera axelrubriker genom att under <code>axis.text.x</code> (i prep) sätta <code>angle</code> till 0 istället för 90.</p>
 <h2 id="Skalstreck">Skalstreck<a class="anchor-link" href="#Skalstreck"> </a></h2><p>Skalstrecken går att ställa in. Lägg till <code>scale_y_continuous()</code> före raden <code>theme_siren()</code>
 I scale_y_continuous går det att till exempel begränsa y-axeln genom limits eller ge skalstrecken exakta värden:</p>
 <p><code>scale_y_continuous(limits=c(0,100), breaks=c(0,20,40,60,80,100)) +</code></p>
@@ -37,6 +38,14 @@ I scale_y_continuous går det att till exempel begränsa y-axeln genom limits el
 <li>Från lägsta till högsta värde: <code>x=reorder(Kommun, Värde)</code></li>
 </ul>
 <h2 id="Ta-bort-saknade-v&#228;rden">Ta bort saknade v&#228;rden<a class="anchor-link" href="#Ta-bort-saknade-v&#228;rden"> </a></h2><p>Lägg till <code>%&gt;% drop_na() %&gt;%</code> som ett extra filter för datan.</p>
+<h2 id="F&#246;rklaring">F&#246;rklaring<a class="anchor-link" href="#F&#246;rklaring"> </a></h2><p>Det går att ändra förklaringens läge i diagrammet. Ändra <code>legend.position</code> till "top", "right", "bottom" eller "left", så hamnar förklaringen högst upp, till höger, längst ner eller till vänster.</p>
+<h2 id="Ta-med-rikssiffra">Ta med rikssiffra<a class="anchor-link" href="#Ta-med-rikssiffra"> </a></h2><p>Lägg till "Riket" som filter.
+<code>chart &lt;- df %&gt;% filter(Län == i | Län == "Riket")</code></p>
+<h2 id="V&#228;rden-p&#229;-staplar">V&#228;rden p&#229; staplar<a class="anchor-link" href="#V&#228;rden-p&#229;-staplar"> </a></h2><p>För att lägga till värden på staplar, lägg till följande rad:
+<code>geom_text(aes(label=Ålder), vjust=2, family=”Merriweather Sans”, size=4) +</code></p>
+<h2 id="Vertikala-linjer">Vertikala linjer<a class="anchor-link" href="#Vertikala-linjer"> </a></h2><p>För att rita ut vertikala linjer (vid värdena 0.5 och 1), lägg till följande rader:
+<code>z=c(0.5,1)</code>
+<code>geom_hline(yintercept=z, linetype=”dotted”, color=”grey”, size=1) +</code></p>
 
 </div>
 </div>
